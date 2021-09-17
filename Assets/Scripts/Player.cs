@@ -8,14 +8,12 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private int _health;
     [SerializeField] private List<Weapon> _weapons;
-    [SerializeField] private List<Sprite> _weaponsSprite;
     [SerializeField] private Transform _shootPoint;
     [SerializeField] private Menu _menu;
     [SerializeField] private SpriteRenderer _currentWeaponSprite;
 
     private Weapon _currentWeapon;
     private int _currentWeaponNumber = 0;
-    //private int _currentWeaponSpriteNumber = 0;
     private int _currentHealth;
     private Animator _animator;
     private bool _isGamePause = false;
@@ -40,7 +38,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        ChangeWeapon(_weapons[_currentWeaponNumber], _weaponsSprite[_currentWeaponNumber]);
+        ChangeWeapon(_weapons[_currentWeaponNumber]);
         _currentHealth = _health;
         _animator = GetComponent<Animator>();
         AddMoney(100);
@@ -81,7 +79,7 @@ public class Player : MonoBehaviour
             _currentWeaponNumber++;
         }
 
-        ChangeWeapon(_weapons[_currentWeaponNumber], _weaponsSprite[_currentWeaponNumber]);
+        ChangeWeapon(_weapons[_currentWeaponNumber]);
     }
 
     public void PreviousWeapon()
@@ -95,13 +93,13 @@ public class Player : MonoBehaviour
             _currentWeaponNumber--;
         }
 
-        ChangeWeapon(_weapons[_currentWeaponNumber], _weaponsSprite[_currentWeaponNumber]);
+        ChangeWeapon(_weapons[_currentWeaponNumber]);
     }
 
-    private void ChangeWeapon(Weapon weapon, Sprite weaponSprite)
+    private void ChangeWeapon(Weapon weapon)
     {
         _currentWeapon = weapon;
-        _currentWeaponSprite.sprite = weaponSprite;
+        _currentWeaponSprite.sprite = weapon.WeaponSprite;
     }
 
     public void FiretWithCurrentWeapon()
