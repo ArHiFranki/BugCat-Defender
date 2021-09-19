@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
-    private const string _firePistolAninationTrigger = "FirePistol";
+    private const string _triggerName = "FirePistol";
 
     public override void Shoot(Transform shootPoint)
     {
@@ -13,6 +13,6 @@ public class Pistol : Weapon
 
     public override void PlayAnimation(Player player)
     {
-        player.SetAnimationTrigger(_firePistolAninationTrigger);
+        player.SetAnimationTrigger(_triggerName);
     }
 }

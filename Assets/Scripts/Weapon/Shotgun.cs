@@ -6,7 +6,7 @@ public class Shotgun : Weapon
 {
     [SerializeField] private float deltaRotation;
 
-    private const string _fireShotgunAnimationTrigger = "FireShotgun";
+    private const string _triggerName = "FireShotgun";
 
     public override void Shoot(Transform shootPoint)
     {
@@ -17,6 +17,6 @@ public class Shotgun : Weapon
 
     public override void PlayAnimation(Player player)
     {
-        player.SetAnimationTrigger(_fireShotgunAnimationTrigger);
+        player.SetAnimationTrigger(_triggerName);
     }
 }
