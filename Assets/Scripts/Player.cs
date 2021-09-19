@@ -107,27 +107,18 @@ public class Player : MonoBehaviour
         if (!_isGamePause)
         {
             _currentWeapon.Shoot(_shootPoint);
-            if (_currentWeaponNumber == 0)
-            {
-                _animator.SetTrigger(_firePistolAninationTrigger);
-            }
-            else if (_currentWeaponNumber == 1)
-            {
-                _animator.SetTrigger(_fireShotgunAnimationTrigger);
-            }
-            else if (_currentWeaponNumber == 2)
-            {
-
-            }
-            else if (_currentWeaponNumber == 3)
-            {
-
-            }
+            _currentWeapon.TryGetComponent(out Weapon tmpWeapon);
+            tmpWeapon.PlayAnimation(this);
         }
     }
 
     private void ChangeGamePauseCondition(bool condition)
     {
         _isGamePause = condition;
+    }
+
+    public void SetAnimationTrigger(string animationTriggerName)
+    {
+        _animator.SetTrigger(animationTriggerName);
     }
 }

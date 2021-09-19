@@ -25,4 +25,9 @@ public class Rifle : Weapon
         }
         Destroy(rifle.gameObject);
     }
+
+    public override void PlayAnimation(Player player)
+    {
+        Debug.Log("Play Rifle Animation");
+    }
 }
