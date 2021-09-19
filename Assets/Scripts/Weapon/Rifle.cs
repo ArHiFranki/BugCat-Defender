@@ -9,6 +9,7 @@ public class Rifle : Weapon
     [SerializeField] private int _shotsNumber;
 
     private Rifle _rifle;
+    private const string _triggerName = "FireRifle";
 
     public override void Shoot(Transform shootPoint)
     {
@@ -28,6 +29,6 @@ public class Rifle : Weapon
 
     public override void PlayAnimation(Player player)
     {
-        Debug.Log("Play Rifle Animation");
+        player.SetAnimationTrigger(_triggerName);
     }
 }
