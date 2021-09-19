@@ -18,9 +18,6 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private bool _isGamePause = false;
 
-    private const string _firePistolAninationTrigger = "FirePistol";
-    private const string _fireShotgunAnimationTrigger = "FireShotgun";
-
     public int Money { get; private set; }
 
     public event UnityAction<int, int> HealhtChanged;
