@@ -21,7 +21,7 @@ public class Rifle : Weapon
     {
         for (int i = 0; i < shotsNumber; i++)
         {
-            Instantiate(Bullet, shootPoint.position, Quaternion.identity);
+            Instantiate(Bullet, shootPoint.position, shootPoint.rotation);
             yield return new WaitForSeconds(fireRateDelay);
         }
         Destroy(rifle.gameObject);

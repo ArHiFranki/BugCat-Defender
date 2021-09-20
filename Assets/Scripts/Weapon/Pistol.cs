@@ -8,7 +8,7 @@ public class Pistol : Weapon
 
     public override void Shoot(Transform shootPoint)
     {
-        Instantiate(Bullet, shootPoint.position, Quaternion.identity);
+        Instantiate(Bullet, shootPoint.position, shootPoint.rotation);
     }
 
     public override void PlayAnimation(Player player)

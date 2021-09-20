@@ -11,12 +11,15 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _shootPoint;
     [SerializeField] private Menu _menu;
     [SerializeField] private SpriteRenderer _currentWeaponSprite;
+    [SerializeField] private Camera _camera;
 
     private Weapon _currentWeapon;
     private int _currentWeaponNumber = 0;
     private int _currentHealth;
     private Animator _animator;
     private bool _isGamePause = false;
+    //private Vector3 mousePosition;
+    //private Vector2 lookDirection;
 
     public int Money { get; private set; }
 
@@ -39,6 +42,20 @@ public class Player : MonoBehaviour
         _currentHealth = _health;
         _animator = GetComponent<Animator>();
         AddMoney(100);
+    }
+
+    private void Update()
+    {
+        //mousePosition =_camera.ScreenToWorldPoint(Input.mousePosition);
+
+        //Vector2 lookDirection = mousePosition - _shootPoint.position;
+        //float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+        //_shootPoint.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            FiretWithCurrentWeapon(Input.mousePosition);
+        }
     }
 
     public void ApplyDamage(int damage)
@@ -99,10 +116,16 @@ public class Player : MonoBehaviour
         _currentWeaponSprite.sprite = weapon.WeaponSprite;
     }
 
-    public void FiretWithCurrentWeapon()
+    private void FiretWithCurrentWeapon(Vector3 mousePosition)
     {
         if (!_isGamePause)
         {
+            //mousePosition = _camera.ScreenToWorldPoint(currentMousePosition);
+            //Vector2 lookDirection = mousePosition - _shootPoint.position;
+            Vector2 lookDirection = _camera.ScreenToWorldPoint(mousePosition) - _shootPoint.position;
+            float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+            _shootPoint.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+
             _currentWeapon.Shoot(_shootPoint);
             _currentWeapon.TryGetComponent(out Weapon tmpWeapon);
             tmpWeapon.PlayAnimation(this);

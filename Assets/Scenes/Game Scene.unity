@@ -6795,13 +6795,10 @@ MonoBehaviour:
   _health: 100
   _weapons:
   - {fileID: 989148974067233838, guid: c6746b5077d799440a049dd58239277b, type: 3}
-  _weaponsSprite:
-  - {fileID: 21300000, guid: 358c2936736be524098724420b6cd1af, type: 3}
-  - {fileID: 21300000, guid: f70892b02c90c8c429046dbff0fc9b2c, type: 3}
-  - {fileID: 21300000, guid: b588a93ecda72ff48b2108fdd86a626b, type: 3}
   _shootPoint: {fileID: 1870745358}
   _menu: {fileID: 950370782}
   _currentWeaponSprite: {fileID: 63187466}
+  _camera: {fileID: 519420031}
 --- !u!1 &1314157665
 GameObject:
   m_ObjectHideFlags: 0

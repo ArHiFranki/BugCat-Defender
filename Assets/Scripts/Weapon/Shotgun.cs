@@ -10,9 +10,11 @@ public class Shotgun : Weapon
 
     public override void Shoot(Transform shootPoint)
     {
-        Instantiate(Bullet, shootPoint.position, Quaternion.Euler(0f, 0f, -deltaRotation));
-        Instantiate(Bullet, shootPoint.position, Quaternion.identity);
-        Instantiate(Bullet, shootPoint.position, Quaternion.Euler(0f, 0f, deltaRotation));
+        float tmpAngle = shootPoint.rotation.eulerAngles.z - 15f;
+        Instantiate(Bullet, shootPoint.position, Quaternion.Euler(0f, 0f, tmpAngle));
+        Instantiate(Bullet, shootPoint.position, shootPoint.rotation);
+        tmpAngle = shootPoint.rotation.eulerAngles.z + 15f;
+        Instantiate(Bullet, shootPoint.position, Quaternion.Euler(0f, 0f, tmpAngle));
     }
 
     public override void PlayAnimation(Player player)
