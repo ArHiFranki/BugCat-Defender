@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private List<Weapon> _weapons;
     [SerializeField] private Transform _shootPoint;
+    [SerializeField] private Transform _arm;
     [SerializeField] private Menu _menu;
     [SerializeField] private SpriteRenderer _currentWeaponSprite;
     [SerializeField] private Camera _camera;
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
     private int _currentHealth;
     private Animator _animator;
     private bool _isGamePause = false;
-    //private Vector3 mousePosition;
+    private Vector3 mousePosition;
     //private Vector2 lookDirection;
 
     public int Money { get; private set; }
@@ -46,16 +47,19 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        //mousePosition =_camera.ScreenToWorldPoint(Input.mousePosition);
-
-        //Vector2 lookDirection = mousePosition - _shootPoint.position;
-        //float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
-        //_shootPoint.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+        mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
             FiretWithCurrentWeapon(Input.mousePosition);
         }
+    }
+
+    private void FixedUpdate()
+    {
+        Vector2 lookDirection = mousePosition - _arm.position;
+        float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+        _arm.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 
     public void ApplyDamage(int damage)
@@ -120,8 +124,6 @@ public class Player : MonoBehaviour
     {
         if (!_isGamePause)
         {
-            //mousePosition = _camera.ScreenToWorldPoint(currentMousePosition);
-            //Vector2 lookDirection = mousePosition - _shootPoint.position;
             Vector2 lookDirection = _camera.ScreenToWorldPoint(mousePosition) - _shootPoint.position;
             float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
             _shootPoint.rotation = Quaternion.Euler(0f, 0f, lookAngle);
