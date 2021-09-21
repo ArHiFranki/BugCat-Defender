@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Menu _menu;
     [SerializeField] private SpriteRenderer _currentWeaponSprite;
     [SerializeField] private Camera _camera;
+    [SerializeField] private float _angleMin;
+    [SerializeField] private float _angleMax;
+    [SerializeField] private float _currentAngle;
 
     private Transform _currentShootPoint;
     private Weapon _currentWeapon;
@@ -24,6 +27,7 @@ public class Player : MonoBehaviour
     private bool _isGamePause = false;
     private Vector3 mousePosition;
     private Vector2 lookDirection;
+    private float lookAngle;
 
     public int Money { get; private set; }
 
@@ -54,12 +58,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            FiretWithCurrentWeapon(Input.mousePosition);
+            FiretWithCurrentWeapon();
         }
     }
 
     private void FixedUpdate()
     {
+        _currentAngle = lookAngle;
         ChangeRotation(_arm);
     }
 
@@ -121,7 +126,7 @@ public class Player : MonoBehaviour
         _currentWeaponSprite.sprite = weapon.WeaponSprite;
     }
 
-    private void FiretWithCurrentWeapon(Vector3 mousePosition)
+    private void FiretWithCurrentWeapon()
     {
         if (!_isGamePause)
         {
@@ -158,7 +163,17 @@ public class Player : MonoBehaviour
     private void ChangeRotation(Transform objectTransform)
     {
         lookDirection = mousePosition - objectTransform.position;
-        float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+        lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+
+        if (lookAngle > -180f && lookAngle < _angleMax)
+        {
+            lookAngle = _angleMax;
+        }
+        else if (lookAngle > _angleMin && lookAngle < -180f)
+        {
+            lookAngle = _angleMin;
+        }
+
         objectTransform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 }

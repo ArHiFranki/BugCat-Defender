@@ -6864,6 +6864,9 @@ MonoBehaviour:
   _menu: {fileID: 950370782}
   _currentWeaponSprite: {fileID: 63187466}
   _camera: {fileID: 519420031}
+  _angleMin: -340
+  _angleMax: -90
+  _currentAngle: 0
 --- !u!1 &1314157665
 GameObject:
   m_ObjectHideFlags: 0
