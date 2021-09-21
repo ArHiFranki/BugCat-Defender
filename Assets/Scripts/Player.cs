@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
@@ -128,6 +129,11 @@ public class Player : MonoBehaviour
 
     private void FiretWithCurrentWeapon()
     {
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (!_isGamePause)
         {
             if (_currentWeapon.GetComponent<Pistol>())
