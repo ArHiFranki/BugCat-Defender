@@ -8,19 +8,22 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private int _health;
     [SerializeField] private List<Weapon> _weapons;
-    [SerializeField] private Transform _shootPoint;
+    [SerializeField] private Transform _pistolShootPoint;
+    [SerializeField] private Transform _shotgunShootPoint;
+    [SerializeField] private Transform _rifleShootPoint;
     [SerializeField] private Transform _arm;
     [SerializeField] private Menu _menu;
     [SerializeField] private SpriteRenderer _currentWeaponSprite;
     [SerializeField] private Camera _camera;
 
+    private Transform _currentShootPoint;
     private Weapon _currentWeapon;
     private int _currentWeaponNumber = 0;
     private int _currentHealth;
     private Animator _animator;
     private bool _isGamePause = false;
     private Vector3 mousePosition;
-    //private Vector2 lookDirection;
+    private Vector2 lookDirection;
 
     public int Money { get; private set; }
 
@@ -57,9 +60,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 lookDirection = mousePosition - _arm.position;
-        float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
-        _arm.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+        ChangeRotation(_arm);
     }
 
     public void ApplyDamage(int damage)
@@ -124,11 +125,21 @@ public class Player : MonoBehaviour
     {
         if (!_isGamePause)
         {
-            Vector2 lookDirection = _camera.ScreenToWorldPoint(mousePosition) - _shootPoint.position;
-            float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
-            _shootPoint.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+            if (_currentWeapon.GetComponent<Pistol>())
+            {
+                _currentShootPoint = _pistolShootPoint;
+            }
+            else if (_currentWeapon.GetComponent<Shotgun>())
+            {
+                _currentShootPoint = _shotgunShootPoint;
+            }
+            else if (_currentWeapon.GetComponent<Rifle>())
+            {
+                _currentShootPoint = _rifleShootPoint;
+            }
 
-            _currentWeapon.Shoot(_shootPoint);
+            ChangeRotation(_currentShootPoint);
+            _currentWeapon.Shoot(_currentShootPoint);
             _currentWeapon.TryGetComponent(out Weapon tmpWeapon);
             tmpWeapon.PlayAnimation(this);
         }
@@ -142,5 +153,12 @@ public class Player : MonoBehaviour
     public void SetAnimationTrigger(string animationTriggerName)
     {
         _animator.SetTrigger(animationTriggerName);
+    }
+
+    private void ChangeRotation(Transform objectTransform)
+    {
+        lookDirection = mousePosition - objectTransform.position;
+        float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+        objectTransform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 }
