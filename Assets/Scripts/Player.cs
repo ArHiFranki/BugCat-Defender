@@ -20,14 +20,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float _angleMax;
     [SerializeField] private float _lookAngle;
 
+    private Vector3 _mousePosition;
+    private Vector2 _lookDirection;
     private Transform _currentShootPoint;
     private Weapon _currentWeapon;
     private Animator _animator;
     private int _currentWeaponNumber = 0;
     private int _currentHealth;
+    private float _timeAfterLastShoot;
     private bool _isGamePause = false;
-    private Vector3 _mousePosition;
-    private Vector2 _lookDirection;
 
     public int Money { get; private set; }
 
@@ -50,11 +51,13 @@ public class Player : MonoBehaviour
         _currentHealth = _health;
         _animator = GetComponent<Animator>();
         AddMoney(100);
+        _timeAfterLastShoot = 0;
     }
 
     private void Update()
     {
         _mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        _timeAfterLastShoot += Time.deltaTime;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -132,7 +135,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (!_isGamePause)
+        if (!_isGamePause && _timeAfterLastShoot >= _currentWeapon.FireRate)
         {
             if (_currentWeapon.GetComponent<Pistol>())
             {
@@ -150,6 +153,7 @@ public class Player : MonoBehaviour
             _currentWeapon.Shoot(_currentShootPoint);
             _currentWeapon.TryGetComponent(out Weapon tmpWeapon);
             tmpWeapon.PlayAnimation(this);
+            _timeAfterLastShoot = 0;
         }
     }
 
