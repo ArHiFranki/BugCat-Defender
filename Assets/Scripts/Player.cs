@@ -18,17 +18,16 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private float _angleMin;
     [SerializeField] private float _angleMax;
-    [SerializeField] private float _currentAngle;
+    [SerializeField] private float _lookAngle;
 
     private Transform _currentShootPoint;
     private Weapon _currentWeapon;
+    private Animator _animator;
     private int _currentWeaponNumber = 0;
     private int _currentHealth;
-    private Animator _animator;
     private bool _isGamePause = false;
-    private Vector3 mousePosition;
-    private Vector2 lookDirection;
-    private float lookAngle;
+    private Vector3 _mousePosition;
+    private Vector2 _lookDirection;
 
     public int Money { get; private set; }
 
@@ -55,7 +54,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        _mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -65,7 +64,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _currentAngle = lookAngle;
         ChangeRotation(_arm);
     }
 
@@ -149,7 +147,6 @@ public class Player : MonoBehaviour
                 _currentShootPoint = _rifleShootPoint;
             }
 
-            ChangeRotation(_currentShootPoint);
             _currentWeapon.Shoot(_currentShootPoint);
             _currentWeapon.TryGetComponent(out Weapon tmpWeapon);
             tmpWeapon.PlayAnimation(this);
@@ -168,18 +165,18 @@ public class Player : MonoBehaviour
 
     private void ChangeRotation(Transform objectTransform)
     {
-        lookDirection = mousePosition - objectTransform.position;
-        lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 180f;
+        _lookDirection = _mousePosition - objectTransform.position;
+        _lookAngle = Mathf.Atan2(_lookDirection.y, _lookDirection.x) * Mathf.Rad2Deg - 180f;
 
-        if (lookAngle > -180f && lookAngle < _angleMax)
+        if (_lookAngle > -180f && _lookAngle < _angleMax)
         {
-            lookAngle = _angleMax;
+            _lookAngle = _angleMax;
         }
-        else if (lookAngle > _angleMin && lookAngle < -180f)
+        else if (_lookAngle > _angleMin && _lookAngle < -180f)
         {
-            lookAngle = _angleMin;
+            _lookAngle = _angleMin;
         }
 
-        objectTransform.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+        objectTransform.rotation = Quaternion.Euler(0f, 0f, _lookAngle);
     }
 }
