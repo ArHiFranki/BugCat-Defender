@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
             if (_currentWeapon.GetComponent<Minigun>() && _isFireWithMinigun)
             {
                 _currentWeapon.StopShooting();
+                _isFireWithMinigun = false;
             }
         }
     }
@@ -150,17 +151,14 @@ public class Player : MonoBehaviour
             if (_currentWeapon.GetComponent<Pistol>())
             {
                 _currentShootPoint = _pistolShootPoint;
-                _isFireWithMinigun = false;
             }
             else if (_currentWeapon.GetComponent<Shotgun>())
             {
                 _currentShootPoint = _shotgunShootPoint;
-                _isFireWithMinigun = false;
             }
             else if (_currentWeapon.GetComponent<Rifle>())
             {
                 _currentShootPoint = _rifleShootPoint;
-                _isFireWithMinigun = false;
             }
             else if (_currentWeapon.GetComponent<Minigun>())
             {
