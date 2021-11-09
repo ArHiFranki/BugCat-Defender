@@ -31,4 +31,9 @@ public class Rifle : Weapon
     {
         player.SetAnimationTrigger(_triggerName);
     }
+
+    public override void StopShooting()
+    {
+
+    }
 }

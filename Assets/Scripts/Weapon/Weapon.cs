@@ -22,6 +22,7 @@ public abstract class Weapon : MonoBehaviour
 
     public abstract void Shoot(Transform shootPoint);
     public abstract void PlayAnimation(Player player);
+    public abstract void StopShooting();
 
     public void Buy()
     {

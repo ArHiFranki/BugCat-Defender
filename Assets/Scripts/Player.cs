@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _pistolShootPoint;
     [SerializeField] private Transform _shotgunShootPoint;
     [SerializeField] private Transform _rifleShootPoint;
+    [SerializeField] private Transform _minigunShootPoint;
     [SerializeField] private Transform _arm;
     [SerializeField] private Menu _menu;
     [SerializeField] private SpriteRenderer _currentWeaponSprite;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
     private int _currentHealth;
     private float _timeAfterLastShoot;
     private bool _isGamePause = false;
+    private bool _isFireWithMinigun = false;
 
     public int Money { get; private set; }
 
@@ -62,6 +64,14 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             FiretWithCurrentWeapon();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (_currentWeapon.GetComponent<Minigun>() && _isFireWithMinigun)
+            {
+                _currentWeapon.StopShooting();
+            }
         }
     }
 
@@ -140,14 +150,22 @@ public class Player : MonoBehaviour
             if (_currentWeapon.GetComponent<Pistol>())
             {
                 _currentShootPoint = _pistolShootPoint;
+                _isFireWithMinigun = false;
             }
             else if (_currentWeapon.GetComponent<Shotgun>())
             {
                 _currentShootPoint = _shotgunShootPoint;
+                _isFireWithMinigun = false;
             }
             else if (_currentWeapon.GetComponent<Rifle>())
             {
                 _currentShootPoint = _rifleShootPoint;
+                _isFireWithMinigun = false;
+            }
+            else if (_currentWeapon.GetComponent<Minigun>())
+            {
+                _currentShootPoint = _minigunShootPoint;
+                _isFireWithMinigun = true;
             }
 
             _currentWeapon.Shoot(_currentShootPoint);
