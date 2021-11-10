@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     private bool _isGamePause = false;
     private bool _isFireWithMinigun = false;
 
+    private const string _stopFireTrigger = "StopFireMinigun";
+
     public int Money { get; private set; }
 
     public event UnityAction<int, int> HealhtChanged;
@@ -71,6 +73,7 @@ public class Player : MonoBehaviour
             if (_currentWeapon.GetComponent<Minigun>() && _isFireWithMinigun)
             {
                 _currentWeapon.StopShooting();
+                SetAnimationTrigger(_stopFireTrigger);
                 _isFireWithMinigun = false;
             }
         }
